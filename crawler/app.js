@@ -3,6 +3,3 @@
 //&date=20210523
 //&stockNo=2610
 
-crawler
-    npm install
-    
