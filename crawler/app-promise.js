@@ -27,7 +27,7 @@ return new Promise((resolve, reject) => {
             .get("https://www.twse.com.tw/exchangeReport/STOCK_DAY", {
             params: {
                 response: "json",
-                date: "20210523",
+                date: "20210530",
                 stockNo: data,
             },
             })
