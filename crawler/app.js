@@ -1,4 +1,3 @@
-
 // https://www.twse.com.tw/exchangeReport/STOCK_DAY
 // ?response=json
 // &date=20210523
@@ -13,53 +12,24 @@ const axios = require("axios");
 // npm i fs ??? -> 不用
 const fs = require("fs");
 
-// fs.readFile("stock.txt", "utf8", (err, data) => {
-//   if (err) {
-//     return console.error("讀檔錯誤", err);
-//   }
-//   console.log(`讀到的 stock code: ${data}`);
+fs.readFile("stock.txt", "utf8", (err, data) => {
+  if (err) {
+    return console.error("讀檔錯誤", err);
+  }
+  console.log(`讀到的 stock code: ${data}`);
 
-//   axios
-//     .get("https://www.twse.com.tw/exchangeReport/STOCK_DAY", {
-//       params: {
-//         response: "json",
-//         date: "20210523",
-//         stockNo: data,
-//       },
-//     })
-//     .then(function (response) {
-//       if (response.data.stat === "OK") {
-//         console.log(response.data.date);
-//         console.log(response.data.title);
-//       }
-//     });
-// });
-
-const fs = require("fs");
-
-function fsPromise() {
-  return new Promise((resolve, reject) => {
-    fs.readFile("crawler/stock.txt", "utf8", (err, data) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(data);
-    });
-  });
-}
-fsPromise()
-  .then((data) => {
-    return axios.get("https://www.twse.com.tw/exchangeReport/STOCK_DAY", {
+  axios
+    .get("https://www.twse.com.tw/exchangeReport/STOCK_DAY", {
       params: {
         response: "json",
         date: "20210523",
         stockNo: data,
       },
+    })
+    .then(function (response) {
+      if (response.data.stat === "OK") {
+        console.log(response.data.date);
+        console.log(response.data.title);
+      }
     });
-  })
-  .then(function (response) {
-    if (response.data.stat === "OK") {
-      console.log(response.data.date);
-      console.log(response.data.title);
-    }
-  });
+});
