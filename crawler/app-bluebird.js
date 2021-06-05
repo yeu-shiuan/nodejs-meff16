@@ -19,23 +19,22 @@ const Promise = require("bluebird");
 const readFileBlue =Promise.promisify(fs.readFile)
 
 readFileBlue("stock.txt", "utf8")
-  .then((stockCode) => {
-    console.log("stockCode:", stockCode);
-
-    return axios.get("https://www.twse.com.tw/exchangeReport/STOCK_DAY", {
-      params: {
-        response: "json",
-        date: moment().format("YYYYMMDD"),
-        stockNo: stockCode,
-      },
-    });
-  })
-  .then((response) => {
-    if (response.data.stat === "OK") {
-      console.log(response.data.date);
-      console.log(response.data.title);
-    }
-  })
-  .catch((err) => {
-    console.error(err);
+ .then((data) => {
+  //axios 串接
+  return axios.get("https://www.twse.com.tw/exchangeReport/STOCK_DAY", {
+    params: {
+      response: "json",
+      date: moment().format("YYYYMMDD"),
+      stockNo: data,
+    },
   });
+})
+.then((response) => {
+  if (response.data.stat === "OK" ){
+    console.log(response.data.date);
+    console.log(response.data.title);
+  }
+})
+.catch((err) => {
+  console.error(err);
+});
