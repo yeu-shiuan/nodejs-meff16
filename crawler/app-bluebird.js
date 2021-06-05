@@ -2,7 +2,7 @@ const axios = require("axios");
 const fs = require("fs");
 const moment = require("moment");
 const Promise = require("bluebird");
-// console.log(Promise);
+console.log(Promise);
 
 // function readFilePromise() {
 // return new Promise((resolve, reject) => {
