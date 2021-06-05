@@ -2,9 +2,10 @@ const axios = require("axios");
 const moment = require("moment");
 const fs = require("fs/promises");
 const mysql= require('mysql');
+//bluebird沒有promise
 const Promise = require("bluebird");
 
-// 設定初始化
+// 設定資料庫初始化
 let connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
@@ -22,25 +23,30 @@ await connection.connectAsync();
 
 let data = await fs.readFile("stock.txt", "utf8");
 console.log (`讀到的 stock code: ${data}`);
+
+//檢查資料是否在資料庫中
 let stock = await connection.queryAsync(
   `SELECT stock_id FROM stock WHERE stock_id = ${data}`
 );
 console.log(stock);
 
-// 檢查資料長度是否小於等於0，小於等於0則抓資料
+//如果小於等於0資料庫無資料，則抓資料
 if (stock.length <= 0) {
   console.log ("atart to query")
   let response = await axios.get(
     `https://www.twse.com.tw/zh/api/codeQuery?query=${data}`
   );
 let answer = response.data.suggestions.shift();
-let answers =answer.split("\t");
+let answers = answer.split("\t");
 
-//如果大於1寫入資料庫
+//如果大於1寫回資料庫
 if(answers.length > 1) {
   connection.queryAsync(
     `INSERT INTO stock (stock_id, stock_name) VALUES ('${answers[0]}','${answers[1]}');`
   );
+  
+}else{
+  console.log("重複不寫入");
 }
 }
 }catch (err) {
