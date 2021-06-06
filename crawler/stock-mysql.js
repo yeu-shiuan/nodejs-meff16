@@ -48,7 +48,7 @@ if(answers.length > 1) {
   );
   
 }else{
-  console.log("重複不寫入");
+  console.log("無資料");
 }
 }
 }catch (err) {
