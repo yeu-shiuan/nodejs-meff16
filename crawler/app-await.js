@@ -14,21 +14,20 @@ return new Promise((resolve, reject) => {
         })
     }
     
-    (async function() {
+    (async function () {
         try {
             let stockNo = await readFilePromise();
-            let result = await axios.get('https://www.twse.com.tw/exchangeReport/STOCK_DAY', {
+            let result = await axios.get("https://www.twse.com.tw/exchangeReport/STOCK_DAY",{
                 params: {
-                    response: JSON,
-                    date: moment().format("YYYYMMDD"),
-                    stockNo: stockNo
-                }
-            });
+                response: "json",
+                date: moment().format("YYYYMMDD"),
+                stockNo: stockNo,
+                },
+              }
+            );
             console.log(result.data.data);
             console.log(result.data.title);
         } catch (err) {
             console.log(err);
         };
     })();
-
-        

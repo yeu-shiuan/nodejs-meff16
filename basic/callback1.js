@@ -30,6 +30,7 @@ let doWork = function (job, timer, cb) {
   });
 });
 
+
 // function doWork(){
 //     setTimeout(function(){
 //         console.log("刷牙");

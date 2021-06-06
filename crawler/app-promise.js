@@ -23,7 +23,7 @@ return new Promise((resolve, reject) => {
     readFilePromise()
             
             .then((data) => {
-                axios
+                return axios
             .get("https://www.twse.com.tw/exchangeReport/STOCK_DAY", {
             params: {
                 response: "json",
