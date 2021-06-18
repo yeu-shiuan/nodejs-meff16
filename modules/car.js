@@ -9,10 +9,6 @@ exports.getColor = function () {
 };
 
 exports.setColor = function (color) {
-  if (color == "Yellow" || color == "Red") {
-    car.color = color;
-  }
-  // TODO: 不符合的，不給改
+    car.color = color;S
 };
 
-exports.car = car;
