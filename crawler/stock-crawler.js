@@ -1,20 +1,9 @@
 const axios = require("axios");
 const fs = require("fs/promises");
-const mysql = require("mysql");
 const Promise = require("bluebird");
 const sys_date = require("moment");
-require("dotenv").config();
-
-let connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-});
-
-//connection->Promise化
-connection = Promise.promisifyAll(connection);
+const connection = require("./db");
+const twse = require("./twse")
 
 // 用await
 (async function () {
