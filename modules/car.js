@@ -9,6 +9,6 @@ exports.getColor = function () {
 };
 
 exports.setColor = function (color) {
-    car.color = color;S
+    car.color = color;
 };
 
