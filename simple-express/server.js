@@ -25,6 +25,9 @@ app.use(function(req, res, next){
   next();
 })
 
+let stockRouter =require("./routes/stock");
+app.use("/stock",stockRouter)
+
 // 路由router  (request, response){} 去回應這個請求
 // 由上而下找，找到就停住了，不會在往下一個同樣的執行
 app.get("/", function (req, res) {
@@ -37,26 +40,6 @@ app.get("/about", function (req, res) {
 
 app.get("/test", function (req, res) {
   res.send("Test Express");
-});
-
-app.get("/stock/list",async (req, res)=>{
-  let queryResults = await connection.queryAsync("SELECT * FROM stock;")
-  res.render("stock/list", {
-    stocks: queryResults,
-  });
-   res.render("stock/detail", {
-    stockPrices: queryResults,
-  });
-})
-
-app.get("/stock/:stockCode", async (req, res) => {
-  let queryResults = await connection.queryAsync(
-    "SELECT * FROM stock_price WHERE stock_id = ? ORDER BY date;",
-    req.params.stockCode
-  );
-  res.render("stock/detail", {
-    stockPrices: queryResults,
-  });
 });
 
 app.listen(3000, async()=>{
