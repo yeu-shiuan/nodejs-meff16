@@ -27,6 +27,8 @@ app.use(function(req, res, next){
 
 let stockRouter =require("./routes/stock");
 app.use("/stock",stockRouter)
+let apiRouter =require("./routes/api");
+app.use("/api",apiRouter)
 
 // 路由router  (request, response){} 去回應這個請求
 // 由上而下找，找到就停住了，不會在往下一個同樣的執行
@@ -40,6 +42,22 @@ app.get("/about", function (req, res) {
 
 app.get("/test", function (req, res) {
   res.send("Test Express");
+});
+
+app.use(function (req, res, next) {
+  // 表示前面的路由都找不到
+  // http status code: 404
+  res.status(404);
+  res.render("404");
+});
+
+// 500 error
+// 放在所有路由後面
+// function 一定要有 4 個參數 --> 最後的錯誤處理
+app.use(function (err, req, res, next) {
+  console.log(err.message);
+  res.status(500);
+  res.send("500 - Internal Server Error 請洽系統管理員");
 });
 
 app.listen(3000, async()=>{
