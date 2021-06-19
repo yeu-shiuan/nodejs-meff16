@@ -1,5 +1,4 @@
 table {
-
   font-family: 微軟正黑體;
   font-size: 16px;
   border: 1px solid lightslategray;
@@ -15,4 +14,26 @@ th {
 td {
   border: 1px solid lightslategray;
   padding: 5px;
+}
+/* pagination */
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: lightcoral;
+  color: white;
+  border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
 }
