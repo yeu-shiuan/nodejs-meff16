@@ -12,13 +12,12 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:stockCode", async (req, res) => {
-  let stock = await connection.queryAsync(
-    "SELECT * FROM stock WHERE stock_id=?;",
-    req.params.stockCode
-  );
+  let stock = await connection.queryAsync("SELECT * FROM stock WHERE stock_id=?;",req.params.stockCode);
 
   if (stock.length === 0) {
-    throw new Error("查無代碼");
+    // throw new Error("查無代碼");
+    // 查不到代碼 not found
+    next();
   }
   stock = stock[0];
 
