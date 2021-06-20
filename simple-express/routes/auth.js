@@ -115,13 +115,24 @@ let member = await connection.queryAsync(
     }
     member = member[0];
 
-    let result = await bcrypt.compare(req.body.password, member.password)
-    console.log(member)
-    if(result){
-        res.send("登入成功");
-    }else{
-        res.send("登入失敗");
+    let result = await bcrypt.compare(req.body.password, member.password);
+    if (result) {
+      req.session.member = {
+        email: member.email,
+        name: member.name,
+        photo: member.photo,
+      };
+        res.redirect(303, "/");
+    } else {
+        req.session.member = null;
+        res.send("密碼有誤");
     }
-});
+})
+
+router.get("/logout", (req, res) => {
+    req.session.member = null;
+    res.redirect(303, "/");
+})
+
 
 module.exports = router;
