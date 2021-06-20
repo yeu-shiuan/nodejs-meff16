@@ -9,6 +9,7 @@ const multer =require("multer");
 // 設定上傳檔案的儲存方式
 const myStorage = multer.diskStorage({
   destination: function (req, file, cb) {
+      console.log("AAA")
     // routes/auth.js --> 現在位置
     // public/uploads --> 希望上傳儲存的位置
     // __dirname: ..../routes/../public/uploads
@@ -71,11 +72,12 @@ router.post("/register",uploader.single("photo"),registerRules,
       "SELECT * FROM members WHERE email = ?",
       req.body.email
     );
+    console.log(checkResult)
     // 如果已經註冊過
     if (checkResult.length > 0) {
       return next(new Error("已經註冊過了"));
     }
-    console.log(req.file);
+    let filepath = req.file ? "/uploads/" + req.file.filename : null;
     // 沒有註冊過，新增一筆到資料庫
     // bcrypt是密碼加密套件，套件記得都要 require 進來才能使用
     let result = await connection.queryAsync(
@@ -83,7 +85,7 @@ router.post("/register",uploader.single("photo"),registerRules,
         [[req.body.email,
             await bcrypt.hash(req.body.password, 10),
             req.body.name,
-            `/uploads/${req.file.filename}`]]
+            filepath]]
     );
     res.send("註冊成功");
   }
