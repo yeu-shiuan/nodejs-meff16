@@ -90,8 +90,38 @@ router.post("/register",uploader.single("photo"),registerRules,
     res.send("註冊成功");
   }
 );
+
+//登入
 router.get("/login", (req, res) => {
   res.render("auth/login");
+});
+
+const loginRules = [
+    body("email").isEmail().withMessage("請正確輸入 Email 格式"),
+    body("password").isLength({ min: 6 }),
+];
+
+router.post("/login", loginRules, async(req, res) => {
+const validateResult = validationResult(req);
+if (!validateResult.isEmpty()) {
+    return next(new Error("登入資料有問題"));}
+
+let member = await connection.queryAsync(
+      "SELECT * FROM members WHERE email = ?",
+      req.body.email
+    );
+    if (member.length === 0){
+        return next(new Error("查無此帳號"));
+    }
+    member = member[0];
+
+    let result = await bcrypt.compare(req.body.password, member.password)
+    console.log(member)
+    if(result){
+        res.send("登入成功");
+    }else{
+        res.send("登入失敗");
+    }
 });
 
 module.exports = router;
