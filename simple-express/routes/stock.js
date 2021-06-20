@@ -17,7 +17,10 @@ router.get("/:stockCode", async (req, res) => {
   if (stock.length === 0) {
     // throw new Error("查無代碼");
     // 查不到代碼 not found
-    next();
+    return next(); //落入下一個中間件
+    // 如果不加 return ，當 next() 執行完畢後，會回到這裡，繼續下面程式碼
+    // return 是結束這個函式
+    // next()裡面放參數，會跳到 express 預設錯誤的處理函式
   }
   stock = stock[0];
 
