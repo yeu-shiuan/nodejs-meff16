@@ -29,6 +29,10 @@ let stockRouter =require("./routes/stock");
 app.use("/stock",stockRouter)
 let apiRouter =require("./routes/api");
 app.use("/api",apiRouter)
+let authRouter =require("./routes/auth");
+app.use("/auth",authRouter)
+//網址可自由命名
+
 
 // 路由router  (request, response){} 去回應這個請求
 // 由上而下找，找到就停住了，不會在往下一個同樣的執行
